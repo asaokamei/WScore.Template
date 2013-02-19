@@ -1,5 +1,5 @@
 <?php
-namespace wsModule\Templates;
+namespace WScore\Template;
 
 class Filter_Date
 {

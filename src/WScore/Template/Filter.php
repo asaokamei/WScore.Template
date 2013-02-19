@@ -1,5 +1,5 @@
 <?php
-namespace wsModule\Templates;
+namespace WScore\Template;
 
 class Filter
 {
@@ -9,8 +9,8 @@ class Filter
     /**
      * @param object $basic
      * @param object $date
-     * @DimInjection \wsModule\Templates\Filter_Basic
-     * @DimInjection \wsModule\Templates\Filter_Date
+     * @DimInjection \WScore\Template\Filter_Basic
+     * @DimInjection \WScore\Template\Filter_Date
      */
     public function __construct( $basic, $date )
     {

@@ -1,17 +1,13 @@
 <?php
 namespace WScore\tests\Template;
 
-require_once( __DIR__ . '/../../autoloader.php' );
-use \WScore\Core;
-
 class Template_Test extends \PHPUnit_Framework_TestCase
 {
-    /** @var \wsModule\Templates\Template */
+    /** @var \WScore\Template\Template */
     var $template;
     public function setUp()
     {
-        $container = Core::go();
-        $this->template = $container->fresh( '\wsModule\Templates\Template' );
+        $this->template = include( __DIR__ . '/../scripts/instance.php' );
     }
     public function h( $v ) {
         return htmlspecialchars( $v, ENT_QUOTES, 'UTF-8' );

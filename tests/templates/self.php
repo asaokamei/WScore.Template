@@ -1,9 +1,7 @@
 <?php
-use \WScore\Core;
 
-$c = Core::dic();
-/** @var $t \wsModule\Templates\Template */
-$t = $c->fresh( '\wsModule\Templates\Template' );
+/** @var $t \WScore\Template\Template */
+$t = include( __DIR__ . '/../../scripts/instance.php' );
 $t->test = 'selfTest';
 $t->parent( __DIR__ . '/layout.php' );
 $t->renderSelf();

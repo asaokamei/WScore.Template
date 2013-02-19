@@ -1,5 +1,5 @@
 <?php
-namespace wsModule\Templates;
+namespace WScore\Template;
 
 /**
  * Template engine using pure PHP code.
@@ -18,12 +18,12 @@ class Template
     /** @var array */
     protected $data = array();
 
-    /** @var \wsModule\Templates\Filter */
+    /** @var \WScore\Template\Filter */
     protected $filter;
     // +----------------------------------------------------------------------+
     /**
-     * @param \wsModule\Templates\Filter $filter
-     * @DimInjection Fresh \wsModule\Templates\Filter
+     * @param \WScore\Template\Filter $filter
+     * @DimInjection Fresh \WScore\Template\Filter
      */
     public function __construct( $filter )
     {
