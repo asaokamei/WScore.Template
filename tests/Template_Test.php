@@ -1,5 +1,5 @@
 <?php
-namespace wsTests\Template;
+namespace WScore\tests\Template;
 
 require_once( __DIR__ . '/../../autoloader.php' );
 use \WScore\Core;
