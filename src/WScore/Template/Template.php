@@ -48,6 +48,18 @@ class Template
     }
 
     /**
+     * sets a default value, or sets value if it's not set. 
+     * 
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function setDefault( $name, $value ) {
+        if( !isset( $this->data[ $name ] ) ) {
+            $this->data[ $name ] = $value;
+        }
+    }
+
+    /**
      * @param $name
      * @param $value
      */
