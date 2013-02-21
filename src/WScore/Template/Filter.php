@@ -7,10 +7,9 @@ class Filter
     protected $filters = array();
 
     /**
-     * @param object $basic
-     * @param object $date
-     * @DimInjection \WScore\Template\Filter_Basic
-     * @DimInjection \WScore\Template\Filter_Date
+     * @Inject
+     * @param \WScore\Template\Filter_Basic $basic
+     * @param \WScore\Template\Filter_Date  $date
      */
     public function __construct( $basic, $date )
     {
