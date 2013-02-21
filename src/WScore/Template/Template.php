@@ -13,21 +13,24 @@ class Template
     protected $templateFile;
 
     /** @var Template */
-    protected $outerTemplate = null;
+    protected $parentTemplate = null;
 
     /** @var array */
     protected $data = array();
 
-    /** @var \WScore\Template\Filter */
+    /** 
+     * @Inject
+     * @var \WScore\Template\Filter 
+     */
     protected $filter;
     // +----------------------------------------------------------------------+
     /**
      * @param \WScore\Template\Filter $filter
      * @DimInjection Fresh \WScore\Template\Filter
      */
-    public function __construct( $filter )
+    public function __construct( $filter=null )
     {
-        $this->filter = $filter;
+        if( $filter ) $this->filter = $filter;
     }
 
     public function setTemplate( $name ) {
@@ -67,8 +70,7 @@ class Template
      * @param string $parentTemplate
      */
     public function parent( $parentTemplate ) {
-        $this->outerTemplate = clone $this;
-        $this->outerTemplate->setTemplate( $parentTemplate );
+        $this->parentTemplate = $parentTemplate;
     }
 
     // +----------------------------------------------------------------------+
@@ -168,10 +170,13 @@ class Template
             $content = $this->evaluate( $template, $parameters );
         }
 
-        if( isset( $this->outerTemplate ) ) {
+        if( isset( $this->parentTemplate ) ) {
             $this->set( 'content', $content );
-            $this->outerTemplate->assign( $this->data );
-            $content = (string) $this->outerTemplate;
+            $parent = clone $this;
+            $parent->parent( null );
+            $parent->setTemplate( $this->parentTemplate );
+            $parent->assign( $this->data );
+            $content = (string) $parent;
         }
 
         return $content;
