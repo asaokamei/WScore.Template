@@ -22,15 +22,12 @@ class Template
      * @Inject
      * @var \WScore\Template\Filter 
      */
-    protected $filter;
+    public $filter;
     // +----------------------------------------------------------------------+
     /**
-     * @param \WScore\Template\Filter $filter
-     * @DimInjection Fresh \WScore\Template\Filter
      */
-    public function __construct( $filter=null )
+    public function __construct()
     {
-        if( $filter ) $this->filter = $filter;
     }
 
     public function setTemplate( $name ) {
