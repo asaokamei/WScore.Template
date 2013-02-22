@@ -9,6 +9,9 @@ class Template
     /** specify self rendering mode.  */
     const SELF = '*self*';
 
+    /** @var string root folder of templates.  */
+    protected $rootDir = null;
+
     /** @var string  */
     protected $templateFile;
 
@@ -32,6 +35,11 @@ class Template
 
     public function setTemplate( $name ) {
         $this->templateFile = $name;
+    }
+
+    public function setRoot( $root ) {
+        if( substr( $root, -1 ) !== '/' ) $root .= '/';
+        $this->rootDir = $root;
     }
     // +----------------------------------------------------------------------+
     //  setting values.
@@ -179,7 +187,7 @@ class Template
             $content = $this->evaluate( $template, $parameters );
         }
 
-        if( isset( $this->parentTemplate ) ) {
+        if( $this->parentTemplate ) {
             $this->set( 'content', $content );
             $parent = clone $this;
             $parent->parent( null );
@@ -208,6 +216,7 @@ class Template
      */
     protected function evaluate( $template, array $parameters = array())
     {
+        $template = $this->rootDir . $template;
         $parameters[ '__template__' ] = $template;
         $parameters[ '_v' ] = $this;
         $this->assign( $parameters );
