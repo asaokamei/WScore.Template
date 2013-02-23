@@ -229,6 +229,12 @@ class Template
         return ob_get_clean();
     }
 
+    /**
+     * another way to render a template.
+     * TODO: this should be the render method. 
+     *
+     * @return mixed
+     */
     public function toString() {
         return $this->render( $this->templateFile, $this->data );
     }
