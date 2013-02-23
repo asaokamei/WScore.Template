@@ -231,7 +231,7 @@ class Template
 
     /**
      * another way to render a template.
-     * TODO: this should be the render method. 
+     * TODO: this should be the render method.
      *
      * @return mixed
      */
