@@ -229,6 +229,9 @@ class Template
         return ob_get_clean();
     }
 
+    public function toString() {
+        return $this->render( $this->templateFile, $this->data );
+    }
     /**
      * @return mixed
      */
