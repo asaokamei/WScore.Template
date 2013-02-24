@@ -91,6 +91,8 @@ class PhpTemplate implements TemplateInterface
     public function setParent( $parentTemplate ) {
         $this->parentTemplate = $parentTemplate;
     }
+    
+    public function parent( $p ) { return $this->setParent( $p ); }
 
     // +----------------------------------------------------------------------+
     //  getting values.
@@ -163,13 +165,14 @@ class PhpTemplate implements TemplateInterface
     //  rendering the template.
     // +----------------------------------------------------------------------+
     /**
-     * @throws \RuntimeException
+     *
+     * @param null|string $template
      * @return mixed
      */
-    public function render()
+    public function render( $template=null )
     {
-        $this->data[ '_view' ] = $this;
-        $content = $this->renderer->render( $this->templateFile, $this->data );
+        $template = $template ?: $this->templateFile;
+        $content = $this->renderer->render( $template, $this->data, $this );
 
         if( $this->parentTemplate ) {
             $this->set( 'content', $content );

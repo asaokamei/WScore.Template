@@ -12,10 +12,10 @@ class Renderer
     /**
      * @param string $template
      * @param array  $_parameters
-     * @throws \RuntimeException
+     * @param TemplateInterface       $_v
      * @return mixed
      */
-    public function render( $template, $_parameters = array() )
+    public function render( $template, $_parameters = array(), $_v=null )
     {
         $_parameters[ '__template__' ] = $template;
 
