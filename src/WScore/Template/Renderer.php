@@ -41,7 +41,7 @@ class Renderer
     public function __destruct()
     {
         if( $this->self ) {
-            echo ob_end_clean();
+            echo ob_get_clean();
         }
     }
 }
