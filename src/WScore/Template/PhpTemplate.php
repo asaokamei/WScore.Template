@@ -92,8 +92,6 @@ class PhpTemplate implements TemplateInterface
         $this->parentTemplate = $parentTemplate;
     }
     
-    public function parent( $p ) { return $this->setParent( $p ); }
-
     // +----------------------------------------------------------------------+
     //  getting values.
     // +----------------------------------------------------------------------+
@@ -198,6 +196,10 @@ class PhpTemplate implements TemplateInterface
      */
     public function __toString() {
         return $this->render( $this->templateFile, $this->data );
+    }
+    
+    public function __destruct() {
+        unset( $this->renderer );
     }
     // +----------------------------------------------------------------------+
 }

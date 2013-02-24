@@ -37,7 +37,7 @@ class PhpTemplate_Test extends \PHPUnit_Framework_TestCase
     function test_self_template()
     {
         ob_start();
-        require __DIR__ . '/phptemplates/self.php';
+        include __DIR__ . '/phptemplates/self.php';
         $content = ob_get_clean();
         $this->assertEquals( 'Layout:test:selfTest', $content );
     }
