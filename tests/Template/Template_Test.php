@@ -7,7 +7,7 @@ class Template_Test extends \PHPUnit_Framework_TestCase
     var $template;
     public function setUp()
     {
-        $this->template = include( __DIR__ . '/../scripts/instance.php' );
+        $this->template = include( __DIR__ . '/../../scripts/instance.php' );
     }
     public function h( $v ) {
         return htmlspecialchars( $v, ENT_QUOTES, 'UTF-8' );
