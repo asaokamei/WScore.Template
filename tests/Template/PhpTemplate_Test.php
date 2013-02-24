@@ -3,7 +3,7 @@ namespace WScore\tests\Template;
 
 class PhpTemplate_Test extends \PHPUnit_Framework_TestCase
 {
-    /** @var \WScore\Template\PhpTemplate */
+    /** @var \WScore\Template\TemplateInterface */
     var $template;
     public function setUp()
     {

@@ -55,6 +55,13 @@ interface TemplateInterface
     public function get( $name, $default=null );
 
     /**
+     * @param string $name
+     * @param array|mixed $default
+     * @return mixed|null
+     */
+    public function arr( $name, $default=array() );
+    
+    /**
      * renders a template.
      * 
      * @return mixed
@@ -69,4 +76,9 @@ interface TemplateInterface
      * @return mixed
      */
     public function block( $name, $blockName );
+
+    /**
+     * rendering output from own php file.
+     */
+    public function renderSelf();
 }
