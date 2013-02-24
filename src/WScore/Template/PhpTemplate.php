@@ -149,22 +149,11 @@ class PhpTemplate implements TemplateInterface
     /**
      * html safe get.
      *
-     * @param      $name
-     * @param null $default
-     * @return string
-     */
-    public function safe( $name, $default=null ) {
-        return $this->get( $name.'|h', $default );
-    }
-
-    /**
-     * html safe get.
-     *
      * @param $name
      * @return string
      */
     public function __get( $name ) {
-        return $this->safe( $name );
+        return $this->get( $name.'|h' );
     }
 
     /**
@@ -194,7 +183,7 @@ class PhpTemplate implements TemplateInterface
             $parent->setParent( null );
             $parent->setTemplate( $this->parentTemplate );
             $parent->assign( $this->data );
-            $content = (string) $parent;
+            $content = $parent->render();
         }
 
         return $content;
