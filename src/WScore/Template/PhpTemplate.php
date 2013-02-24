@@ -169,21 +169,31 @@ class PhpTemplate implements TemplateInterface
      */
     public function render( $template=null )
     {
-        $template = $template ?: $this->templateFile;
-        $content = $this->renderer->render( $template, $this->data, $this );
+        $content = $this->renderer->render( $this->templateFile, $this->data, $this );
 
         if( $this->parentTemplate ) {
             $this->set( 'content', $content );
             $parent = clone $this;
-            $parent->setParent( null );
-            $parent->setTemplate( $this->parentTemplate );
+            $this->setTemplate( $this->parentTemplate );
             $parent->assign( $this->data );
-            $content = $parent->render();
+            $this->setParent( null );
+            $content = $this->render();
         }
 
         return $content;
     }
 
+    public function block( $name, $blockName )
+    {
+        $template = $this->templateFile;
+        $parent   = $this->parentTemplate;
+        $this->templateFile   = $blockName;
+        $this->parentTemplate = null;
+        $this->data[ $name ]  = $content = $this->render();
+        $this->templateFile   = $template;
+        $this->parentTemplate = $parent;
+        return $content;
+    }
     /**
      * rendering output from own php file.
      */
