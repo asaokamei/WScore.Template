@@ -3,11 +3,12 @@ namespace WScore\tests\Template;
 
 class PhpTemplate_Test extends \PHPUnit_Framework_TestCase
 {
-    /** @var \WScore\Template\Template */
+    /** @var \WScore\Template\PhpTemplate */
     var $template;
     public function setUp()
     {
-        $this->template = include( __DIR__ . '/../../scripts/instance.php' );
+        require_once( __DIR__ . '/../../scripts/require.php' );
+        $this->template = include( __DIR__ . '/../../scripts/phptemplate.php' );
     }
     public function h( $v ) {
         return htmlspecialchars( $v, ENT_QUOTES, 'UTF-8' );
@@ -18,29 +19,35 @@ class PhpTemplate_Test extends \PHPUnit_Framework_TestCase
     function test_template()
     {
         $t = $this->template;
-        $case = __DIR__ . '/templates/case1.php';
-        $content = $t->render( $case, array( 'test' => 'case1' ) );
+        $case = __DIR__ . '/phptemplates/case1.php';
+        $t->setTemplate( $case );
+        $t->test = 'case1';
+        $content = $t->render();
         $this->assertEquals( 'test:case1', $content );
     }
     function test_template_with_parent()
     {
         $t = $this->template;
-        $case = __DIR__ . '/templates/case2.php';
-        $content = $t->render( $case, array( 'test' => 'case2' ) );
+        $case = __DIR__ . '/phptemplates/case2.php';
+        $t->setTemplate( $case );
+        $t->test = 'case2';
+        $content = $t->render();
         $this->assertEquals( 'Layout:test:case2', $content );
     }
     function test_self_template()
     {
         ob_start();
-        require __DIR__ . '/templates/self.php';
+        require __DIR__ . '/phptemplates/self.php';
         $content = ob_get_clean();
         $this->assertEquals( 'Layout:test:selfTest', $content );
     }
     function test_block_template()
     {
         $t = $this->template;
-        $case = __DIR__ . '/templates/case3.php';
-        $content = $t->render( $case, array( 'test' => 'case3' ) );
+        $case = __DIR__ . '/phptemplates/case3.php';
+        $t->setTemplate( $case );
+        $t->test = 'case3';
+        $content = $t->render();
         $this->assertEquals( "Layout:test:case3\nLayout:Block: block name", $content );
     }
     // +----------------------------------------------------------------------+
