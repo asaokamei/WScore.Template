@@ -60,4 +60,13 @@ interface TemplateInterface
      * @return mixed
      */
     public function render();
+
+    /**
+     * renders a block: rendering without parent. 
+     * 
+     * @param $name
+     * @param $blockName
+     * @return mixed
+     */
+    public function block( $name, $blockName );
 }
