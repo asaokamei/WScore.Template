@@ -1,8 +1,6 @@
 <?php
 namespace WScore\Template;
 
-require_once( __DIR__ . '/require.php' );
-
 $view = new \WScore\Template\PhpTemplate();
 $view->filter =     new \WScore\Template\Filter(
     new \WScore\Template\Filter_Basic(),
