@@ -183,15 +183,20 @@ class PhpTemplate implements TemplateInterface
         return $content;
     }
 
+    /**
+     * renders a block: rendering without parent.
+     *
+     * @param $name
+     * @param $blockName
+     * @return mixed
+     */
     public function block( $name, $blockName )
     {
-        $template = $this->templateFile;
-        $parent   = $this->parentTemplate;
-        $this->templateFile   = $blockName;
-        $this->parentTemplate = null;
-        $this->data[ $name ]  = $content = $this->render();
-        $this->templateFile   = $template;
-        $this->parentTemplate = $parent;
+        // clone $this. for block should not influence the caller template. 
+        $view = clone( $this );
+        $view->templateFile   = $blockName;
+        $view->parentTemplate = null;
+        $this->data[ $name ]  = $content = $view->render();
         return $content;
     }
     /**
