@@ -7,12 +7,6 @@ namespace WScore\Template;
 
 class PhpTemplate implements TemplateInterface
 {
-    /** specify self rendering mode.  */
-    const SELF = '*self*';
-
-    /** @var string root folder of templates.  */
-    protected $rootDir = null;
-
     /** @var string  */
     protected $templateFile;
 
