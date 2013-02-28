@@ -10,8 +10,8 @@ class PhpTemplate implements TemplateInterface
     /** @var string  */
     protected $templateFile;
 
-    /** @var Template */
-    protected $parentTemplate = null;
+    /** @var string[] */
+    protected $parentTemplates = array();
 
     protected $self = false;
 
@@ -45,7 +45,7 @@ class PhpTemplate implements TemplateInterface
 
     /**
      * @param $root
-     * @return PhpTemplate
+     * @return TemplateInterface
      */
     public function setRoot( $root ) {
         if( !$root ) {
@@ -64,13 +64,21 @@ class PhpTemplate implements TemplateInterface
      * sets parent/outer template for the current template.
      *
      * @param string $parentTemplate
-     * @return void
+     * @return TemplateInterface
      */
     public function setParent( $parentTemplate ) {
-        $this->parentTemplate = $parentTemplate;
+        $this->parentTemplates = array( $parentTemplate );
         return $this;
     }
 
+    /**
+     * @param $parentTemplate
+     * @return PhpTemplate
+     */
+    public function addParent( $parentTemplate ) {
+        array_push( $this->parentTemplates, $parentTemplate );
+        return $this;
+    }
     protected function getTemplateFile( $name )
     {
         if( substr( $name, 0, 2 ) === './' ) {
@@ -208,12 +216,12 @@ class PhpTemplate implements TemplateInterface
 
     private function renderParent( $content )
     {
-        if( $this->parentTemplate ) {
+        if( $this->parentTemplates ) {
             $this->set( 'content', $content );
+            $parentTemplate = array_pop( $this->parentTemplates );
             $parent = clone $this;
             $parent->self = false;
-            $parent->setTemplate( $this->parentTemplate );
-            $parent->setParent( null );
+            $parent->setTemplate( $parentTemplate );
             $content = $parent->render();
         }
         return $content;
@@ -241,7 +249,7 @@ class PhpTemplate implements TemplateInterface
         // clone $this. for block should not influence the caller template. 
         $view = clone( $this );
         $view->setTemplate( $blockName );
-        $view->parentTemplate = null;
+        $view->parentTemplates = null;
         $this->data[ $name ]  = $content = $view->render();
         return $content;
     }
