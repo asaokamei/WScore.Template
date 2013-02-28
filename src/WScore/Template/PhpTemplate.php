@@ -79,6 +79,11 @@ class PhpTemplate implements TemplateInterface
         array_push( $this->parentTemplates, $parentTemplate );
         return $this;
     }
+
+    /**
+     * @param string $name
+     * @return string
+     */
     protected function getTemplateFile( $name )
     {
         if( substr( $name, 0, 2 ) === './' ) {

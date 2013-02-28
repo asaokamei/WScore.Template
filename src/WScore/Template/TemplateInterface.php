@@ -15,11 +15,19 @@ interface TemplateInterface
 
     /**
      * sets parent template file.
-     * 
+     *
      * @param $parentTemplate
      * @return mixed
      */
     public function setParent( $parentTemplate );
+
+    /**
+     * adds parent template file.
+     * 
+     * @param $parentTemplate
+     * @return mixed
+     */
+    public function addParent( $parentTemplate );
 
     /**
      * sets a value. 
