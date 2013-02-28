@@ -224,7 +224,7 @@ class PhpTemplate implements TemplateInterface
     {
         // clone $this. for block should not influence the caller template. 
         $view = clone( $this );
-        $view->templateFile   = $blockName;
+        $view->setTemplate( $blockName );
         $view->parentTemplate = null;
         $this->data[ $name ]  = $content = $view->render();
         return $content;

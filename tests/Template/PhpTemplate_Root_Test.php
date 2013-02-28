@@ -57,4 +57,12 @@ class PhpTemplate_Root_Test extends \PHPUnit_Framework_TestCase
         $content = $t->render();
         $this->assertEquals( 'Layout:sub:test:case4', $content );
     }
+    function test_template_with_block()
+    {
+        $t = $this->template;
+        $t->setTemplate( 'sub/case5.php' );
+        $t->test = 'case5';
+        $content = $t->render();
+        $this->assertEquals( "Layout:test:case5\nBlock: block name", $content );
+    }
 }
