@@ -189,19 +189,23 @@ class PhpTemplate implements TemplateInterface
     public function render()
     {
         $content = $this->renderer( $this->templateFile );
-
-        if( $this->parentTemplate ) {
-            $this->set( 'content', $content );
-            $parent = clone $this;
-            $this->setTemplate( $this->parentTemplate );
-            $parent->assign( $this->data );
-            $this->setParent( null );
-            $content = $this->render();
-        }
+        $content = $this->renderParent( $content );
 
         return $content;
     }
 
+    private function renderParent( $content )
+    {
+        if( $this->parentTemplate ) {
+            $this->set( 'content', $content );
+            $parent = clone $this;
+            $parent->self = false;
+            $parent->setTemplate( $this->parentTemplate );
+            $parent->setParent( null );
+            $content = $parent->render();
+        }
+        return $content;
+    }
     /**
      * @param string $__template__
      * @return string
@@ -246,7 +250,9 @@ class PhpTemplate implements TemplateInterface
     
     public function __destruct() {
         if( $this->self ) {
-            echo ob_get_clean();
+            $content = ob_get_clean();
+            $content = $this->renderParent( $content );
+            echo $content;
         }
     }
     // +----------------------------------------------------------------------+

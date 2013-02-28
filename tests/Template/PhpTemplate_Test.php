@@ -39,8 +39,7 @@ class PhpTemplate_Test extends \PHPUnit_Framework_TestCase
         ob_start();
         include __DIR__ . '/phptemplates/self.php';
         $content = ob_get_clean();
-        // don't know how to test. cannot destroy Renderer in parent object. 
-        //$this->assertEquals( 'Layout:test:selfTest', $content );
+        $this->assertEquals( 'Layout:test:selfTest', $content );
     }
     function test_block_template()
     {
