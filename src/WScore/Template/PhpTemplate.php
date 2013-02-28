@@ -49,6 +49,16 @@ class PhpTemplate implements TemplateInterface
         }
     }
 
+    /**
+     * sets parent/outer template for the current template.
+     *
+     * @param string $parentTemplate
+     * @return void
+     */
+    public function setParent( $parentTemplate ) {
+        $this->parentTemplate = $parentTemplate;
+    }
+
     protected function getTemplateFile( $name )
     {
         if( substr( $name, 0, 2 ) === './' ) {
@@ -102,16 +112,6 @@ class PhpTemplate implements TemplateInterface
         $this->data = array_merge( $this->data, $data );
     }
 
-    /**
-     * sets parent/outer template for the current template.
-     *
-     * @param string $parentTemplate
-     * @return void
-     */
-    public function setParent( $parentTemplate ) {
-        $this->parentTemplate = $parentTemplate;
-    }
-    
     // +----------------------------------------------------------------------+
     //  getting values.
     // +----------------------------------------------------------------------+
