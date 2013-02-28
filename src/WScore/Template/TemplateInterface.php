@@ -11,6 +11,8 @@ interface TemplateInterface
      */
     public function setTemplate( $name );
 
+    public function setRoot( $root );
+
     /**
      * sets parent template file.
      * 

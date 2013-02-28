@@ -18,6 +18,9 @@ class PhpTemplate implements TemplateInterface
     /** @var array */
     protected $data = array();
 
+    /** @var string root folder of templates.  */
+    protected $rootDir = null;
+
     /**
      * @Inject
      * @var \WScore\Template\Filter
@@ -32,9 +35,24 @@ class PhpTemplate implements TemplateInterface
     }
 
     public function setTemplate( $name ) {
-        $this->templateFile = $name;
+        $this->templateFile = $this->getTemplateFile( $name );
     }
 
+    public function setRoot( $root ) {
+        if( !$root ) {
+            $this->rootDir = '';
+            return;
+        }
+        $this->rootDir = $root;
+        if( substr( $this->rootDir, -1 ) !== '/' ) {
+            $this->rootDir .= '/';
+        }
+    }
+
+    protected function getTemplateFile( $name )
+    {
+        return $this->rootDir . $name;
+    }
     // +----------------------------------------------------------------------+
     //  setting values.
     // +----------------------------------------------------------------------+
