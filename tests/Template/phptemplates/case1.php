@@ -1,1 +1,1 @@
-test:<?php echo $_v->test;?>
+test:<?php echo $this->test;?>

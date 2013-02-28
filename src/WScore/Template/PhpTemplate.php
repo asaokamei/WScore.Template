@@ -13,6 +13,8 @@ class PhpTemplate implements TemplateInterface
     /** @var Template */
     protected $parentTemplate = null;
 
+    protected $self = false;
+
     /** @var array */
     protected $data = array();
 
@@ -22,12 +24,6 @@ class PhpTemplate implements TemplateInterface
      */
     public $filter;
 
-    /**
-     * @Inject
-     * @var \WScore\Template\Renderer
-     */
-    public $renderer;
-    
     // +----------------------------------------------------------------------+
     /**
      */
@@ -164,12 +160,11 @@ class PhpTemplate implements TemplateInterface
     // +----------------------------------------------------------------------+
     /**
      *
-     * @param null|string $template
      * @return mixed
      */
-    public function render( $template=null )
+    public function render()
     {
-        $content = $this->renderer->render( $this->templateFile, $this->data, $this );
+        $content = $this->renderer( $this->templateFile );
 
         if( $this->parentTemplate ) {
             $this->set( 'content', $content );
@@ -181,6 +176,17 @@ class PhpTemplate implements TemplateInterface
         }
 
         return $content;
+    }
+
+    /**
+     * @param string $__template__
+     * @return string
+     */
+    private function renderer( $__template__ )
+    {
+        ob_start();
+        require $__template__;
+        return ob_get_clean();
     }
 
     /**
@@ -203,18 +209,21 @@ class PhpTemplate implements TemplateInterface
      * rendering output from own php file.
      */
     public function renderSelf() {
-        $this->renderer->renderSelf();
+        $this->self = true;
+        ob_start();
     }
 
     /**
      * @return mixed
      */
     public function __toString() {
-        return $this->render( $this->templateFile, $this->data );
+        return $this->render( $this->templateFile );
     }
     
     public function __destruct() {
-        unset( $this->renderer );
+        if( $this->self ) {
+            echo ob_get_clean();
+        }
     }
     // +----------------------------------------------------------------------+
 }

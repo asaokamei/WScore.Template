@@ -1,1 +1,1 @@
-Block: <?php echo $_v->blockname;?>
+Block: <?php echo $this->blockname;?>
