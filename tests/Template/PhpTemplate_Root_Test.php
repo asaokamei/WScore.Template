@@ -49,4 +49,12 @@ class PhpTemplate_Root_Test extends \PHPUnit_Framework_TestCase
         $content = $t->render();
         $this->assertEquals( 'Layout:test:case3', $content );
     }
+    function test_template_with_sub_parent_in_sub_folder()
+    {
+        $t = $this->template;
+        $t->setTemplate( 'sub/case4.php' );
+        $t->test = 'case4';
+        $content = $t->render();
+        $this->assertEquals( 'Layout:sub:test:case4', $content );
+    }
 }

@@ -51,6 +51,12 @@ class PhpTemplate implements TemplateInterface
 
     protected function getTemplateFile( $name )
     {
+        if( substr( $name, 0, 2 ) === './' ) {
+            return dirname( $this->templateFile ) . substr( $name, 1 );
+        }
+        elseif( substr( $name, 0, 2 ) === '..' ) {
+            return dirname( $this->templateFile ) . $name;
+        }
         return $this->rootDir . $name;
     }
     // +----------------------------------------------------------------------+
