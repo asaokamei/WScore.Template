@@ -34,19 +34,30 @@ class PhpTemplate implements TemplateInterface
     {
     }
 
+    /**
+     * @param string $name
+     * @return TemplateInterface
+     */
     public function setTemplate( $name ) {
         $this->templateFile = $this->getTemplateFile( $name );
+        return $this;
     }
 
+    /**
+     * @param $root
+     * @return PhpTemplate
+     */
     public function setRoot( $root ) {
         if( !$root ) {
             $this->rootDir = '';
-            return;
         }
-        $this->rootDir = $root;
-        if( substr( $this->rootDir, -1 ) !== '/' ) {
-            $this->rootDir .= '/';
+        else {
+            $this->rootDir = $root;
+            if( substr( $this->rootDir, -1 ) !== '/' ) {
+                $this->rootDir .= '/';
+            }
         }
+        return $this;
     }
 
     /**
@@ -57,6 +68,7 @@ class PhpTemplate implements TemplateInterface
      */
     public function setParent( $parentTemplate ) {
         $this->parentTemplate = $parentTemplate;
+        return $this;
     }
 
     protected function getTemplateFile( $name )
