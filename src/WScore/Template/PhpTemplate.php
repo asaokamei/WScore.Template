@@ -87,10 +87,20 @@ class PhpTemplate implements TemplateInterface
     protected function getTemplateFile( $name )
     {
         if( substr( $name, 0, 2 ) === './' ) {
+            // referencing with respect to the current template.
             return dirname( $this->templateFile ) . substr( $name, 1 );
         }
-        elseif( substr( $name, 0, 2 ) === '..' ) {
+        elseif( substr( $name, 0, 3 ) === '../' ) {
+            // referencing upward folder.
             return dirname( $this->templateFile ) . $name;
+        }
+        elseif( substr( $name, 0, 1 ) === '/' ) {
+            // it's an absolute path for *nix system.
+            return $name;
+        }
+        elseif( preg_match( '/^[a-zA-Z]{1}:/', $name ) ) {
+            // it's an absolute path for Windows system.
+            return $name;
         }
         return $this->rootDir . $name;
     }
