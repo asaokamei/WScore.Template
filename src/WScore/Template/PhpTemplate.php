@@ -20,6 +20,9 @@ class PhpTemplate implements TemplateInterface
 
     /** @var string root folder of templates.  */
     protected $rootDir = null;
+    
+    /** @var bool|string */
+    protected $contentFilter = true; 
 
     /**
      * @Inject
@@ -224,6 +227,7 @@ class PhpTemplate implements TemplateInterface
     public function render()
     {
         $content = $this->renderer( $this->templateFile );
+        $content = $this->filterContent( $content );
         $content = $this->renderParent( $content );
 
         return $content;
@@ -241,6 +245,40 @@ class PhpTemplate implements TemplateInterface
         }
         return $content;
     }
+    
+    private function filterContent( $content )
+    {
+        if( $this->contentFilter === false ) {
+            // contents filter is off. do nothing. 
+        }
+        elseif( $this->contentFilter === true ) {
+            // automatic content filter based on file name. 
+            if( $filters = $this->getContentFilter() ) {
+                $content = $this->filter->apply( $content, $filters );
+            }
+        }
+        return $content;
+    }
+    
+    private function getContentFilter()
+    {
+        $filename  = pathinfo( $this->templateFile, PATHINFO_BASENAME );
+        $extensions = explode( '.', $filename );
+        array_shift( $extensions );
+        $filters = array(
+            'txt'      => 'pre',
+            'text'     => 'pre',
+            'md'       => 'md',
+            'markdown' => 'md',
+        );
+        foreach( $filters as $ext => $f ) {
+            if( in_array( $ext, $extensions ) ) {
+                return array( $f );
+            }
+        }
+        return null;
+    }
+    
     /**
      * @param string $__template__
      * @return string
