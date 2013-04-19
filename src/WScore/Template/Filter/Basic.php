@@ -10,4 +10,9 @@ class Filter_Basic
     public function nl2br( $v ) {
         return nl2br( $v );
     }
+    
+    public function pre( $v )
+    {
+        return '<pre>' . $this->h( $v ) . '</pre>';
+    }
 }
