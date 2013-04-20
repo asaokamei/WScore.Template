@@ -1,6 +1,8 @@
 <?php
 namespace WScore\Template;
 
+use \Michelf\MarkdownExtra as MD;
+
 class Filter_Basic
 {
     public function h( $v ) {
@@ -14,5 +16,10 @@ class Filter_Basic
     public function pre( $v )
     {
         return '<pre>' . $this->h( $v ) . '</pre>';
+    }
+    
+    public function md( $v )
+    {
+        return MD::defaultTransform( $v );
     }
 }
