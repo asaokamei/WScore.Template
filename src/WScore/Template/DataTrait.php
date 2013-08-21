@@ -106,6 +106,9 @@ trait DataTrait
     {
         if( is_callable( [ $this->filters, $method ] ) ) {
             $v = isset( $args[0] ) ? $this->get( $args[0] ) : $this->_value;
+            if( is_object( $v ) && method_exists( $v, '__toString' ) ) {
+                $v = (string) $v;
+            }
             $this->_value = $this->filters->$method( $v );
             return $this;
         }
