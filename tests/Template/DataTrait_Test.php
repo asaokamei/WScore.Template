@@ -100,4 +100,19 @@ class DataTrait_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $html2, $this->data->v( $text )->h()->br() );
         $this->assertEquals( $html2, $this->data->v( $text )->h()->br()->get() );
     }
+
+    function test_add_filters()
+    {
+        $filter = function( $v ) {
+            return preg_replace( '/[-]/', '.', $v );
+        };
+        $this->data->getFilters()->setFilter( 'dot', $filter );
+        $date = '2013-08-21';
+        $dot  = '2013.08.21';
+        $this->data->set( 'test', $date );
+        $this->assertEquals( $date, $this->data->get( 'test' ) );
+        $this->assertEquals( $date, $this->data->_('test')->get() );
+        $this->assertEquals( $dot , $this->data->dot( 'test' ) );
+        $this->assertEquals( $dot, $this->data->test->dot() );
+    }
 }
