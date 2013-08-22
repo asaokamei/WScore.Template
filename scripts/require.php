@@ -1,6 +1,5 @@
 <?php
-require( __DIR__ . '/../src/WScore/Template/Filter.php' );
-require( __DIR__ . '/../src/WScore/Template/Filter/Basic.php' );
-require( __DIR__ . '/../src/WScore/Template/Filter/Date.php' );
+require( __DIR__ . '/../src/WScore/Template/Filter/Filters.php' );
+require( __DIR__ . '/../src/WScore/Template/DataTrait.php' );
 require( __DIR__ . '/../src/WScore/Template/TemplateInterface.php' );
 require( __DIR__ . '/../src/WScore/Template/PhpTemplate.php' );

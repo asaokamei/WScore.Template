@@ -3,7 +3,7 @@ namespace WScore\tests\Template;
 
 class PhpTemplate_Test extends \PHPUnit_Framework_TestCase
 {
-    /** @var \WScore\Template\TemplateInterface */
+    /** @var \WScore\Template\PhpTemplate */
     var $template;
     public function setUp()
     {
@@ -32,14 +32,14 @@ class PhpTemplate_Test extends \PHPUnit_Framework_TestCase
         $t->setTemplate( $case );
         $t->test = 'case2';
         $content = $t->render();
-        $this->assertEquals( 'Layout:test:case2', $content );
+        $this->assertContains( 'Layout:test:case2', $content );
     }
     function test_self_template()
     {
         ob_start();
         include __DIR__ . '/phptemplates/self.php';
         $content = ob_get_clean();
-        $this->assertEquals( 'Layout:test:selfTest', $content );
+        $this->assertContains( 'Layout:test:selfTest', $content );
     }
     function test_block_template()
     {
@@ -59,7 +59,7 @@ class PhpTemplate_Test extends \PHPUnit_Framework_TestCase
         $t->set( 'test', 'value' );
         $this->assertEquals( 'value', $t->get( 'test' ) );
         $this->assertEquals( 'value', $t->test );
-        $this->assertEquals(  null  , $t->none );
+        $this->assertEquals(  null  , (string) $t->none );
     }
     function test_magic_get_returns_html_safe()
     {
@@ -74,12 +74,11 @@ class PhpTemplate_Test extends \PHPUnit_Framework_TestCase
         $t = $this->template;
         $word = "<b>bold</b>\nnext line";
         $t->set( 'test', $word );
-        $this->assertEquals( $this->h( $word ), $t->get( 'test|h' ) );
-        $this->assertEquals( $this->h( $word ), $t->get( 'test|h|none' ) );
-        $this->assertEquals( nl2br(    $word ), $t->get( 'test|nl2br' ) );
-        $this->assertEquals( nl2br( $this->h( $word ) ), $t->get( 'test|h|nl2br' ) );
         $this->assertEquals( $this->h( $word ), $t->h( 'test' ) );
-        $this->assertEquals( nl2br(    $word ), $t->nl2br( 'test' ) );
+        $this->assertEquals( nl2br(    $word ), (string) $t->_( 'test' )->br() );
+        $this->assertEquals( nl2br( $this->h( $word ) ), $t->test->br() );
+        $this->assertEquals( $this->h( $word ), $t->h( 'test' ) );
+        $this->assertEquals( nl2br(    $word ), $t->br( 'test' ) );
     }
     function test_arr_returns_empty_array()
     {
@@ -98,12 +97,16 @@ class PhpTemplate_Test extends \PHPUnit_Framework_TestCase
     }
     function test_external_date_filters()
     {
+        $dot = function( $v ) {
+            return str_replace( '-', '.', $v );
+        };
         $t = $this->template;
+        $t->getFilters()->setFilter( 'dot', $dot );
         $date = '1981-03-04';
         $t->set( 'date', $date );
         $this->assertEquals( $date, $t->get( 'date' ) );
-        $this->assertEquals( $date, $t->get( 'date|dot' ) );
-        $this->assertEquals( str_replace( '-', '.', $date ), $t->date( 'date|dot' ) );
+        $this->assertEquals( str_replace( '-', '.', $date ), (string) $t->_( 'date' )->dot() );
+        $this->assertEquals( str_replace( '-', '.', $date ), $t->dot( 'date' ) );
     }
     // +----------------------------------------------------------------------+
 }

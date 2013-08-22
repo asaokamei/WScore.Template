@@ -1,6 +1,9 @@
 <?php
 namespace WScore\tests\Template;
 
+require_once( __DIR__ . '/../../scripts/require.php' );
+require_once( __DIR__ . '/Mocks/DataMock.php' );
+
 use WScore\Template\DataTrait;
 use WScore\Template\Filter\Filters;
 use WScore\tests\Template\Mocks\DataMock;
@@ -14,9 +17,6 @@ class DataTrait_Test extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        require_once( __DIR__ . '/../../src/WScore/Template/DataTrait.php' );
-        require_once( __DIR__ . '/../../src/WScore/Template/Filter/Filters.php' );
-        require_once( __DIR__ . '/Mocks/DataMock.php' );
         $this->filters = new Filters();
         $this->data    = new DataMock();
         $this->data->filters = $this->filters;

@@ -39,7 +39,7 @@ class PhpTemplate_Root_Test extends \PHPUnit_Framework_TestCase
         $t->setTemplate( 'case2.php' );
         $t->test = 'case2';
         $content = $t->render();
-        $this->assertEquals( 'Layout:test:case2', $content );
+        $this->assertContains( 'Layout:test:case2', $content );
     }
     function test_template_with_parent_in_sub_folder()
     {
@@ -47,7 +47,7 @@ class PhpTemplate_Root_Test extends \PHPUnit_Framework_TestCase
         $t->setTemplate( 'sub/case3.php' );
         $t->test = 'case3';
         $content = $t->render();
-        $this->assertEquals( 'Layout:test:case3', $content );
+        $this->assertContains( 'Layout:test:case3', $content );
     }
     function test_template_with_sub_parent_in_sub_folder()
     {
@@ -55,7 +55,7 @@ class PhpTemplate_Root_Test extends \PHPUnit_Framework_TestCase
         $t->setTemplate( 'sub/case4.php' );
         $t->test = 'case4';
         $content = $t->render();
-        $this->assertEquals( 'Layout:sub:test:case4', $content );
+        $this->assertContains( 'Layout:sub:test:case4', $content );
     }
     function test_template_with_block()
     {
@@ -73,6 +73,6 @@ class PhpTemplate_Root_Test extends \PHPUnit_Framework_TestCase
         $t->addParent( './sub6.php' );
         $t->test = 'case6';
         $content = $t->render();
-        $this->assertEquals( 'Layout:sub6:test6:case6', $content );
+        $this->assertContains( 'Layout:sub6:test6:case6', $content );
     }
 }
