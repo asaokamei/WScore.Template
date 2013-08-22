@@ -7,6 +7,8 @@ namespace WScore\Template;
 
 class PhpTemplate implements TemplateInterface
 {
+    use DataTrait;
+    
     /** @var string  */
     protected $templateFile;
 
@@ -15,20 +17,11 @@ class PhpTemplate implements TemplateInterface
 
     protected $self = false;
 
-    /** @var array */
-    protected $data = array();
-
     /** @var string root folder of templates.  */
     protected $rootDir = null;
     
     /** @var bool|string */
     protected $contentFilter = true; 
-
-    /**
-     * @Inject
-     * @var \WScore\Template\Filter
-     */
-    public $filter;
 
     // +----------------------------------------------------------------------+
     /**
@@ -106,115 +99,6 @@ class PhpTemplate implements TemplateInterface
             return $name;
         }
         return $this->rootDir . $name;
-    }
-    // +----------------------------------------------------------------------+
-    //  setting values.
-    // +----------------------------------------------------------------------+
-    /**
-     * @param string $name
-     * @param mixed  $value
-     * @return void
-     */
-    public function set( $name, $value ) {
-        $this->data[ $name ] = $value;
-    }
-
-    /**
-     * sets a default value, or sets value if it's not set.
-     *
-     * @param string $name
-     * @param mixed  $value
-     * @return void
-     */
-    public function setDefault( $name, $value ) {
-        if( !isset( $this->data[ $name ] ) ) {
-            $this->data[ $name ] = $value;
-        }
-    }
-
-    /**
-     * @param $name
-     * @param $value
-     */
-    public function __set( $name, $value ) {
-        $this->set( $name, $value );
-    }
-
-    /**
-     * mass assign data.
-     *
-     * @param array $data
-     * @return void
-     */
-    public function assign( $data ) {
-        $this->data = array_merge( $this->data, $data );
-    }
-
-    // +----------------------------------------------------------------------+
-    //  getting values.
-    // +----------------------------------------------------------------------+
-    /**
-     * @param string $name
-     * @param mixed  $default
-     * @return null|mixed
-     */
-    public function get( $name, $default=null ) {
-        list( $name, $filters ) = $this->parse( $name );
-        if( !array_key_exists( $name, $this->data ) ) return $default;
-        return $this->filter( $this->data[ $name ], $filters );
-    }
-
-    /**
-     * @param $method
-     * @param $args
-     * @return mixed|null
-     */
-    public function __call( $method, $args ) {
-        $name = array_shift( $args );
-        list( $name, $filters ) = $this->parse( $name );
-        if( !$value = $this->get( $name ) ) return $value;
-        return $this->filter( $value, $filters, $method );
-    }
-
-    /**
-     * @param $name
-     * @return array
-     */
-    protected function parse( $name ) {
-        $list = explode( '|', $name );
-        $name = array_shift( $list );
-        return array( $name, $list );
-    }
-
-    /**
-     * @param        $value
-     * @param        $filters
-     * @param string $method
-     * @return mixed
-     */
-    protected function filter( $value, $filters, $method='' )
-    {
-        $value = $this->filter->apply( $value, $filters, $method );
-        return $value;
-    }
-
-    /**
-     * html safe get.
-     *
-     * @param $name
-     * @return string
-     */
-    public function __get( $name ) {
-        return $this->get( $name.'|h' );
-    }
-
-    /**
-     * @param string $name
-     * @param array|mixed $default
-     * @return mixed|null
-     */
-    public function arr( $name, $default=array() ) {
-        return $this->get( $name, $default );
     }
 
     // +----------------------------------------------------------------------+
@@ -314,13 +198,6 @@ class PhpTemplate implements TemplateInterface
         ob_start();
     }
 
-    /**
-     * @return mixed
-     */
-    public function __toString() {
-        return $this->render( $this->templateFile );
-    }
-    
     public function __destruct() {
         if( $this->self ) {
             $content = ob_get_clean();

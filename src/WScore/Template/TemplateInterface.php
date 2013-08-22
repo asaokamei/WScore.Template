@@ -39,15 +39,6 @@ interface TemplateInterface
     public function set( $name, $value );
 
     /**
-     * sets a value only if it is not set yet. 
-     * 
-     * @param string $name
-     * @param mixed  $value
-     * @return mixed
-     */
-    public function setDefault( $name, $value );
-
-    /**
      * sets array of data.
      * 
      * @param array $data
