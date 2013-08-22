@@ -56,6 +56,15 @@ trait DataTrait
         $this->set( $name, $value );
     }
 
+    /**
+     * @param mixed $value
+     * @return $this
+     */
+    public function v( $value ) {
+        $this->_value = $value;
+        return $this;
+    }
+
     // +----------------------------------------------------------------------+
     //  getting values.
     // +----------------------------------------------------------------------+
@@ -106,7 +115,6 @@ trait DataTrait
                 $v = (string) $v;
             }
             $this->_value = $this->filters->$method( $v );
-            return $this;
         }
         return $this;
     }
@@ -118,8 +126,8 @@ trait DataTrait
      */
     public function __call( $method, $args ) 
     {
-        if( !isset( $args[0] ) ) $args[0] = null;
-        return $this->apply( $args[0], $method );
+        $name = isset( $args[0] ) ? $args[0] : null;
+        return $this->apply( $name, $method );
     }
 
     /**

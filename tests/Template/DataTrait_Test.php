@@ -85,4 +85,17 @@ class DataTrait_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $html2, $this->data->_('test')->h()->br() );
         $this->assertEquals( $html2, $this->data->_('test')->h()->br()->get() );
     }
+
+    function test_v_setting_value()
+    {
+        $text  = "1st <b>bold</b>\n2nd <i>italic</i>";
+        $html1 = htmlspecialchars( $text );
+        $html2 = nl2br( $html1 );
+        $this->data->v( $text );
+        $this->assertEquals( null, $this->data->get( 'test' ) );
+        $this->assertEquals( $text, $this->data->v( $text )->get() );
+        $this->assertEquals( $html1, (string) $this->data->v( $text )->h() );
+        $this->assertEquals( $html2, $this->data->v( $text )->h()->br() );
+        $this->assertEquals( $html2, $this->data->v( $text )->h()->br()->get() );
+    }
 }
