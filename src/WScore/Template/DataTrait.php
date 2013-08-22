@@ -95,7 +95,7 @@ trait DataTrait
      */
     public function __get( $name ) {
         $this->apply( $name, 'h' );
-        return $this->_value;
+        return $this;
     }
 
     /**
