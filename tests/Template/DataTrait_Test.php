@@ -33,8 +33,8 @@ class DataTrait_Test extends \PHPUnit_Framework_TestCase
         $this->data->set( 'test', 'test value' );
         $this->assertEquals( 'test value', $this->data->get( 'test' ) );
         $this->assertEquals( 'test value', $this->data->test );
-        $this->assertEquals( 'test value', $this->data->test->h() );
-        $this->assertEquals( 'test value', $this->data->test->get() );
+        $this->assertEquals( 'test value', $this->data->_('test')->h() );
+        $this->assertEquals( 'test value', $this->data->_('test')->get() );
     }
     
     function test_h_as_html()
@@ -44,10 +44,45 @@ class DataTrait_Test extends \PHPUnit_Framework_TestCase
         $this->data->set( 'test', $text );
         $this->assertEquals( $text, $this->data->get( 'test' ) );
         $this->assertEquals( $html, $this->data->h( 'test' ) );
+        $this->assertEquals( $html, $this->data->test );
+        $this->assertEquals( $html, $this->data->_('test')->h() );
+        $this->assertEquals( $text, $this->data->_('test')->get() );
+        $this->assertEquals( $html, $this->data->_('test')->h()->get() );
+    }
+
+    function test_not_set_return_null()
+    {
+        $this->data->set( 'no-test', 'test value' );
+        $this->assertEquals( null, $this->data->get( 'test' ) );
+        $this->assertEquals( null, $this->data->test );
+        $this->assertEquals( null, (string) $this->data->_('test')->h() );
+        $this->assertEquals( null, $this->data->_('test')->get() );
+    }
+
+    function test_br()
+    {
+        $text = "1st\n2nd";
+        $html = nl2br( $text );
+        $this->data->set( 'test', $text );
+        $this->assertEquals( $text, $this->data->get( 'test' ) );
+        $this->assertEquals( $html, $this->data->br( 'test' ) );
         $this->assertEquals( $text, $this->data->test );
-        $this->assertEquals( $html, $this->data->test->h() );
-        $this->assertEquals( $text, $this->data->test->get() );
-        $this->assertEquals( $html, $this->data->test->h()->get() );
-        
+        $this->assertEquals( $html, $this->data->_('test')->br() );
+        $this->assertEquals( $text, $this->data->_('test')->get() );
+        $this->assertEquals( $html, $this->data->_('test')->br()->get() );
+    }
+
+    function test_h_and_br_filters()
+    {
+        $text  = "1st <b>bold</b>\n2nd <i>italic</i>";
+        $html1 = htmlspecialchars( $text );
+        $html2 = nl2br( $html1 );
+        $this->data->set( 'test', $text );
+        $this->assertEquals( $text, $this->data->get( 'test' ) );
+        $this->assertEquals( $text, $this->data->_('test')->get() );
+        $this->assertEquals( $html1, $this->data->h( 'test' ) );
+        $this->assertEquals( $html1, $this->data->test );
+        $this->assertEquals( $html2, $this->data->_('test')->h()->br() );
+        $this->assertEquals( $html2, $this->data->_('test')->h()->br()->get() );
     }
 }

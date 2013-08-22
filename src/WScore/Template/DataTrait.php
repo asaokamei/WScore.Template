@@ -85,7 +85,8 @@ trait DataTrait
      * @return $this
      */
     public function __get( $name ) {
-        return $this->_( $name );
+        $this->apply( $name, 'h' );
+        return $this->_value;
     }
 
     /**
@@ -96,16 +97,11 @@ trait DataTrait
         $this->_value = $this->get( $name );
         return $this;
     }
-    
-    /**
-     * @param $method
-     * @param $args
-     * @return $this
-     */
-    public function __call( $method, $args ) 
+
+    public function apply( $name, $method )
     {
         if( is_callable( [ $this->filters, $method ] ) ) {
-            $v = isset( $args[0] ) ? $this->get( $args[0] ) : $this->_value;
+            $v = isset( $name ) ? $this->get( $name ) : $this->_value;
             if( is_object( $v ) && method_exists( $v, '__toString' ) ) {
                 $v = (string) $v;
             }
@@ -113,6 +109,17 @@ trait DataTrait
             return $this;
         }
         return $this;
+    }
+
+    /**
+     * @param $method
+     * @param $args
+     * @return $this
+     */
+    public function __call( $method, $args ) 
+    {
+        if( !isset( $args[0] ) ) $args[0] = null;
+        return $this->apply( $args[0], $method );
     }
 
     /**
