@@ -138,7 +138,7 @@ class PhpTemplate implements TemplateInterface
         elseif( $this->contentFilter === true ) {
             // automatic content filter based on file name. 
             if( $filters = $this->getContentFilter() ) {
-                $content = $this->filter->apply( $content, $filters );
+                $content = $this->filters->$filters( $content );
             }
         }
         return $content;
@@ -152,12 +152,12 @@ class PhpTemplate implements TemplateInterface
         $filters = array(
             'txt'      => 'pre',
             'text'     => 'pre',
-            'md'       => 'md',
-            'markdown' => 'md',
+            'md'       => 'markdown',
+            'markdown' => 'markdown',
         );
         foreach( $filters as $ext => $f ) {
             if( in_array( $ext, $extensions ) ) {
-                return array( $f );
+                return $f;
             }
         }
         return null;
