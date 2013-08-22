@@ -114,5 +114,6 @@ class DataTrait_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $date, $this->data->_('test')->get() );
         $this->assertEquals( $dot , $this->data->dot( 'test' ) );
         $this->assertEquals( $dot, $this->data->test->dot() );
+        $this->assertEquals( $dot, $this->data->test->apply( 'dot' ) );
     }
 }

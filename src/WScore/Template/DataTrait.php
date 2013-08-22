@@ -94,7 +94,7 @@ trait DataTrait
      * @return $this
      */
     public function __get( $name ) {
-        $this->apply( $name, 'h' );
+        $this->apply( 'h', $name );
         return $this;
     }
 
@@ -107,7 +107,7 @@ trait DataTrait
         return $this;
     }
 
-    public function apply( $name, $method )
+    public function apply( $method, $name=null )
     {
         if( is_callable( [ $this->filters, $method ] ) ) {
             $v = isset( $name ) ? $this->get( $name ) : $this->_value;
@@ -127,7 +127,7 @@ trait DataTrait
     public function __call( $method, $args ) 
     {
         $name = isset( $args[0] ) ? $args[0] : null;
-        return $this->apply( $name, $method );
+        return $this->apply( $method, $name );
     }
 
     /**
