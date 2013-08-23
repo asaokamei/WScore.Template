@@ -53,14 +53,14 @@ interface TemplateInterface
      * @param null|mixed   $default
      * @return mixed
      */
-    public function get( $name, $default=null );
+    public function get( $name=null, $default=null );
 
     /**
      * @param string $name
      * @param array|mixed $default
      * @return mixed|null
      */
-    public function arr( $name, $default=array() );
+    public function arr( $name=null, $default=array() );
     
     /**
      * renders a template.
